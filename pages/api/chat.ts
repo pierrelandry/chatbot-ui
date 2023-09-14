@@ -55,11 +55,11 @@ const handler = async (req: Request): Promise<Response> => {
 
         const stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
         const messageToLog = {
-            ...last(messages),
+            ...(last(messages) ?? {}),
             timestamp: new Date().toISOString(),
             headers: Object.fromEntries(req.headers.entries())
         };
-        
+
         console.log(`MESSAGE LOG: ${JSON.stringify(messageToLog)}`)
 
         return new Response(stream);
