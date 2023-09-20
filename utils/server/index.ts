@@ -9,7 +9,6 @@ import {
   OPENAI_ORGANIZATION,
 } from '../app/const';
 
-import { log } from 'console';
 import {
   ParsedEvent,
   ReconnectInterval,
@@ -92,9 +91,7 @@ export const OpenAIStream = async (
           }`,
         );
       }
-    } catch {
-      // Some logs here
-    }
+    } catch {}
   }
 
   const stream = new ReadableStream({
