@@ -1,6 +1,5 @@
 import {DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE} from '@/utils/app/const';
 import {OpenAIError, OpenAIStream} from '@/utils/server';
-import last from 'lodash/last'
 import {ChatBody, Message} from '@/types/chat';
 
 // @ts-expect-error
