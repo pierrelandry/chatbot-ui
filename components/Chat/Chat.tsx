@@ -229,7 +229,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               obj[key] = all_headers[key];
               return obj;
             }, {});
-          console.log(filtered_headers);
           const messageToLog = {
             messagess: updatedMessages,
             timestamp: new Date().toISOString(),
