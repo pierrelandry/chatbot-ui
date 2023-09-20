@@ -1,39 +1,26 @@
-import { IconClearAll, IconSettings } from '@tabler/icons-react';
-import {
-  MutableRefObject,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import {IconClearAll, IconSettings} from '@tabler/icons-react';
+import {memo, MutableRefObject, useCallback, useContext, useEffect, useRef, useState,} from 'react';
 import toast from 'react-hot-toast';
 
-import { useTranslation } from 'next-i18next';
+import {useTranslation} from 'next-i18next';
 
-import { getEndpoint } from '@/utils/app/api';
-import {
-  saveConversation,
-  saveConversations,
-  updateConversation,
-} from '@/utils/app/conversation';
-import { throttle } from '@/utils/data/throttle';
+import {getEndpoint} from '@/utils/app/api';
+import {saveConversation, saveConversations, updateConversation,} from '@/utils/app/conversation';
+import {throttle} from '@/utils/data/throttle';
 
-import { ChatBody, Conversation, Message } from '@/types/chat';
-import { Plugin } from '@/types/plugin';
+import {ChatBody, Conversation, Message} from '@/types/chat';
+import {Plugin} from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
 import Spinner from '../Spinner';
-import { ChatInput } from './ChatInput';
-import { ChatLoader } from './ChatLoader';
-import { ErrorMessageDiv } from './ErrorMessageDiv';
-import { ModelSelect } from './ModelSelect';
-import { SystemPrompt } from './SystemPrompt';
-import { TemperatureSlider } from './Temperature';
-import { MemoizedChatMessage } from './MemoizedChatMessage';
-import last from "lodash/last";
+import {ChatInput} from './ChatInput';
+import {ChatLoader} from './ChatLoader';
+import {ErrorMessageDiv} from './ErrorMessageDiv';
+import {ModelSelect} from './ModelSelect';
+import {SystemPrompt} from './SystemPrompt';
+import {TemperatureSlider} from './Temperature';
+import {MemoizedChatMessage} from './MemoizedChatMessage';
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -219,24 +206,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             ...updatedConversation.messages,
             { role: 'assistant', content: answer },
           ];
-
-          /* Chat logging
-          const allowed = ['user-agent', 'host'];
-          const all_headers = Object.fromEntries(response.headers);
-          const filtered_headers = Object.keys(all_headers)
-            .filter(key => allowed.includes(key))
-            .reduce((obj: { [index: string]: any }, key) => {
-              obj[key] = all_headers[key];
-              return obj;
-            }, {});
-          const messageToLog = {
-            messagess: updatedMessages,
-            timestamp: new Date().toISOString(),
-            headers: filtered_headers,
-            session_id: "session_id", // TODO: add session id
-        };
-        console.log(` CHAT MESSAGE LOG: ${JSON.stringify(messageToLog)}`)*/
-
           updatedConversation = {
             ...updatedConversation,
             messages: updatedMessages,

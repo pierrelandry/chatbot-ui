@@ -50,17 +50,27 @@ const handler = async (req: Request): Promise<Response> => {
             messagesToSend = [message, ...messagesToSend];
         }
 
+        //log request headers
+        const allowed = ['cf-access-authenticated-user-email', 'cf-ipcountry', 'cf-connecting-ip', 'x-amzn-trace-id', 'user-agent', 'host', 'x-forwarded-port', 'x-forwarded-proto', 'x-forwarded-for'];
+        const all_headers = Object.fromEntries(req.headers);
+        const filtered_headers = Object.keys(all_headers)
+          .filter(key => allowed.includes(key))
+          .reduce((obj: { [index: string]: any }, key) => {
+            obj[key] = all_headers[key];
+            return obj;
+          }, {});
+        const messageToLog = {
+          messages: messages,
+          timestamp: new Date().toISOString(),
+          headers: filtered_headers,
+          session_id: "session_id", // TODO: add session id
+        };
+        console.log(` CHAT MESSAGE LOG: ${JSON.stringify(messageToLog)}`)
+
         encoding.free();
 
 
         const stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
-        const messageToLog = {
-            ...(last(messages) ?? {}),
-            timestamp: new Date().toISOString(),
-            headers: Object.fromEntries(req.headers.entries())
-        };
-
-        console.log(`MESSAGE LOG: ${JSON.stringify(messageToLog)}`)
 
         return new Response(stream);
     } catch (error) {
