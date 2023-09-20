@@ -74,9 +74,8 @@ export const OpenAIStream = async (
   const decoder = new TextDecoder();
 
   if (res.status !== 200) {
-    let result;
     try {
-      result = await res.json();
+      const result = await res.json();
       if (result?.error) {
         throw new OpenAIError(
           result.error.message,
