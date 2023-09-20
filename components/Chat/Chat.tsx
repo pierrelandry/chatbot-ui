@@ -33,6 +33,7 @@ import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
 import { MemoizedChatMessage } from './MemoizedChatMessage';
+import last from "lodash/last";
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -218,6 +219,25 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             ...updatedConversation.messages,
             { role: 'assistant', content: answer },
           ];
+
+          /* Chat logging
+          const allowed = ['user-agent', 'host'];
+          const all_headers = Object.fromEntries(response.headers);
+          const filtered_headers = Object.keys(all_headers)
+            .filter(key => allowed.includes(key))
+            .reduce((obj: { [index: string]: any }, key) => {
+              obj[key] = all_headers[key];
+              return obj;
+            }, {});
+          console.log(filtered_headers);
+          const messageToLog = {
+            messagess: updatedMessages,
+            timestamp: new Date().toISOString(),
+            headers: filtered_headers,
+            session_id: "session_id", // TODO: add session id
+        };
+        console.log(` CHAT MESSAGE LOG: ${JSON.stringify(messageToLog)}`)*/
+
           updatedConversation = {
             ...updatedConversation,
             messages: updatedMessages,

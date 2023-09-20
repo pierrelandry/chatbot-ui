@@ -10,5 +10,6 @@ logs:
 	docker logs -f chatbot-ui
 
 push:
-	docker tag chatbot-ui:latest ${DOCKER_USER}/chatbot-ui:${DOCKER_TAG}
-	docker push ${DOCKER_USER}/chatbot-ui:${DOCKER_TAG}
+	docker tag chatbot-ui:latest ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}
+	aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin ${DOCKER_USER}
+	docker push ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}
