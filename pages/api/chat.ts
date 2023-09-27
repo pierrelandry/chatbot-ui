@@ -50,21 +50,22 @@ const handler = async (req: Request): Promise<Response> => {
         }
 
         //log request headers
-        const allowed = ['cf-access-authenticated-user-email', 'cf-ipcountry', 'cf-connecting-ip', 'x-amzn-trace-id', 'user-agent', 'host', 'x-forwarded-port', 'x-forwarded-proto', 'x-forwarded-for'];
-        const all_headers = Object.fromEntries(req.headers);
-        const filtered_headers = Object.keys(all_headers)
+        const allowed = ['cf-access-authenticated-user-email', 'cf-ipcountry', 'cf-connecting-ip', 'x-amzn-trace-id', 'user-agent', 'host', 'x-forwarded-port', 'x-forwarded-proto', 'x-forwarded-for', 'session-id'];
+
+        const allHeaders = Object.keys(Object.fromEntries(req.headers))
           .filter(key => allowed.includes(key))
           .reduce((obj: { [index: string]: any }, key) => {
-            obj[key] = all_headers[key];
+            obj[key] = (Object.fromEntries(req.headers))[key];
             return obj;
           }, {});
         const messageToLog = {
           messages: messages,
           timestamp: new Date().toISOString(),
-          headers: filtered_headers,
-          session_id: "session_id", // TODO: add session id
+          headers: allHeaders,
+          session_id: allHeaders['session-id'], 
         };
-        console.log(` CHAT MESSAGE LOG: ${JSON.stringify(messageToLog)}`)
+        console.log(`CHAT MESSAGE LOG: \n`)
+        console.log(messageToLog)
 
         encoding.free();
 

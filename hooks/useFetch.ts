@@ -32,7 +32,7 @@ export const useFetch = () => {
           ? {}
           : { 'Content-type': 'application/json' }
         ),
-        ...{'Session-ID': getSessionId()}
+        ...{'Session-Id': getSessionId()}
     };
 
     return fetch(requestUrl, { ...requestBody, headers, signal })
