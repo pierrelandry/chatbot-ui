@@ -11,5 +11,5 @@ export const getSessionId = () => {
         setSessionID()
     }
 
-    return localStorage?.getItem('sessionId')
+    return localStorage?.getItem('sessionId') ?? ''
 }

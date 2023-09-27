@@ -21,6 +21,7 @@ import {ModelSelect} from './ModelSelect';
 import {SystemPrompt} from './SystemPrompt';
 import {TemperatureSlider} from './Temperature';
 import {MemoizedChatMessage} from './MemoizedChatMessage';
+import { useSessionId } from '@/hooks/useSessionId';
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -45,6 +46,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext);
+
+  const {getSessionId} = useSessionId()
 
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
@@ -108,6 +111,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Session-Id': getSessionId()
           },
           signal: controller.signal,
           body,

@@ -27,10 +27,12 @@ export const useFetch = () => {
 
     const headers = {
       ...(request?.headers
-        ? request.headers
-        : request?.body && request.body instanceof FormData
-        ? {}
-        : { 'Content-type': 'application/json' }, {'Session-ID': getSessionId()}),
+          ? request.headers
+          : request?.body && request.body instanceof FormData
+          ? {}
+          : { 'Content-type': 'application/json' }
+        ),
+        ...{'Session-ID': getSessionId()}
     };
 
     return fetch(requestUrl, { ...requestBody, headers, signal })
