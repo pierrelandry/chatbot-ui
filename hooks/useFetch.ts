@@ -1,3 +1,5 @@
+import { useSessionId } from "./useSessionId";
+
 export type RequestModel = {
   params?: object;
   headers?: object;
@@ -15,6 +17,7 @@ export const useFetch = () => {
     signal?: AbortSignal,
   ) => {
     const requestUrl = request?.params ? `${url}${request.params}` : url;
+    const {getSessionId} = useSessionId()
 
     const requestBody = request?.body
       ? request.body instanceof FormData
@@ -27,7 +30,7 @@ export const useFetch = () => {
         ? request.headers
         : request?.body && request.body instanceof FormData
         ? {}
-        : { 'Content-type': 'application/json' }),
+        : { 'Content-type': 'application/json' }, {'Session-ID': getSessionId()}),
     };
 
     return fetch(requestUrl, { ...requestBody, headers, signal })
